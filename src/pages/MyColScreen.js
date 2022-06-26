@@ -10,38 +10,37 @@ export default class MyColScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            collection: '',
+            collection: [],
+            idUser: this.props.navigation.state.params.idUser,
         };
+        
     };
 
     deleteCollection = (id) => {
-        database.collection(route.params.idUser).doc(id).delete()
+        database.collection(this.state.idUser).doc(id).delete()
     };
 
     componentDidMount(){
-        database.collection('Collection').onSnapshot((query) => {
-            const list = []
-            const idUser = this.props.navigation.state.params.idUser
+        database.collection(this.state.idUser).onSnapshot((query) => {
+            const list = [];
             query.forEach((doc) => {
-                if(doc.data().idUser === idUser){
-                   list.push({ ...doc.data()})
-                //    list.push({ ...doc.data(), id: doc.id })
-                }
+                list.push({ ...doc.data()})
+                // list.push({ ...doc.data(), id: doc.id })
             })
-            list.forEach((item) => this.setState({collection: this.state.collection + item}))
-            // this.setState({collection: list});
-            // this.state.collection.forEach((item) => console.log(item.nome));
-            console.log(this.state.collection.reduce((item) => item.nome));
+            this.setState({collection: list});
+            
         })
     };
     render(){
         return(
             <View style={styles.container}>
-                <CardMyCollection />
+                {
+                    this.state.collection.map((item) => <CardMyCollection i={item}/>)
+                }
                 <FAB
                     icon="plus"
                     style={styles.fab}
-                    // onPress={() => this.props.navigation.navigate('NewCollection')}
+                    onPress={() => this.props.navigation.navigate('NewCollection')}
                 />
             </View>
         );

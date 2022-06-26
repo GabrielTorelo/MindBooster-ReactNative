@@ -27,6 +27,13 @@ export default class LoginScreen extends React.Component {
                 this.setState({errorLogin: true});
             });
     };
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.props.navigation.navigate('Mycol', {idUser: user.uid});
+            }
+        });
+    };
     render() {
         return(
             <KeyboardAvoidingView 
