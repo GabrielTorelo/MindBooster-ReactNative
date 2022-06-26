@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import firebase from '../config/firebase';
 import {FAB} from 'react-native-paper';
 import CardMyCollection from '../components/CardMyCollection';
@@ -24,8 +24,7 @@ export default class MyColScreen extends React.Component {
         database.collection(this.state.idUser).onSnapshot((query) => {
             const list = [];
             query.forEach((doc) => {
-                list.push({ ...doc.data()})
-                // list.push({ ...doc.data(), id: doc.id })
+                list.push({ ...doc.data(), id: doc.id});
             })
             this.setState({collection: list});
             
@@ -35,12 +34,12 @@ export default class MyColScreen extends React.Component {
         return(
             <View style={styles.container}>
                 {
-                    this.state.collection.map((item) => <CardMyCollection i={item}/>)
+                    this.state.collection.map((item) => <CardMyCollection i={item} n={this.props} id={this.state.idUser}/>)
                 }
                 <FAB
                     icon="plus"
                     style={styles.fab}
-                    onPress={() => this.props.navigation.navigate('NewCollection')}
+                    onPress={() => this.props.navigation.navigate('NewCollection', {idUser: this.state.idUser, idCol: ''})}
                 />
             </View>
         );

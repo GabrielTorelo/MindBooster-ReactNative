@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {StyleSheet, View, Text, Image, Alert} from 'react-native';
 
-function CardMyCollection(props, key) {
+function CardMyCollection(props) {
   const removeCollectionAlert = () =>
     Alert.alert(
       '',
@@ -24,19 +24,19 @@ function CardMyCollection(props, key) {
         <View style={{flexDirection: 'row'}}>
             <Image
                 style={styles.cardImage}
-                source={{uri: "../images/Image-1.png"}}
+                // source={{uri: 'https://imagepng.org/wp-content/uploads/2017/10/bola.png'}}
                 // source={{uri: '../images/' + props.i.image}}
-                // source={require('../images/' + props.i.image)}
+                source={require('../images/Image-1.png')}
             />
-            {console.log(typeof props.i.image)}
-            {console.log('../images/' + props.i.image)}
+            {/* {console.log(typeof props.i.image)}
+            {console.log('../images/' + props.i.image)} */}
             <Text style={styles.cardText}>{props.i.nome}</Text>
         </View>
         <View style={styles.actionButtons}>
             <Ionicons
                 name='create'
                 style={styles.cardEdit}
-                onPress={() => console.log('EDITAR - CLICK')}
+                onPress={() => props.n.navigation.navigate('NewCollection', {idCol: props.i.id, idUser: props.id})}
             ></Ionicons>
             <Ionicons 
                 name='trash'
