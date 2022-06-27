@@ -21,7 +21,7 @@ export default class NewColScreen extends React.Component {
     };
 
     componentDidMount(){
-        if (this.state.idCol !== '') {
+        if (this.state.idCol !== '' && this.state.errorEdit === false) {
             database.collection(this.state.idUser).doc(this.state.idCol).get().then((doc) => {
                 if (doc.exists) {
                     this.setState({name: doc.data().nome, image: doc.data().image, desc: doc.data().desc})
@@ -31,22 +31,31 @@ export default class NewColScreen extends React.Component {
             });
         }
     };
-
     update_createCol = () => {
-        if (this.state.idCol !== '') {
-            database.collection(this.state.idUser).doc(this.state.idCol).set({
+        const date = new Date().getDate();
+        if (this.state.idCol !== '' || this.state.errorEdit === false) {
+            database.collection(this.state.idUser).doc(this.state.idCol).get({
                 nome: this.state.name,
                 desc: this.state.desc
             })
             .then(() => {
-                this.props.navigation.navigate('Mycol');
+                this.props.navigation.navigate('Mycol', {idCol: '', idUser: ''});
             })
             .catch(() => {
                 this.setState({errorEdit: true})
             });
         }
         else{
-            
+            database.collection(this.state.idUser).doc(date.getTime()).set({
+                nome: this.state.name,
+                desc: this.state.desc
+            })
+            .then(() => {
+                this.props.navigation.navigate('Mycol', {idCol: '', idUser: ''});
+            })
+            .catch(() => {
+                this.setState({errorEdit: true})
+            });
         }
     }
     render(){
@@ -62,7 +71,7 @@ export default class NewColScreen extends React.Component {
                         label='NomeColecao'
                         placeholder='Digite o nome da coleção'
                         onChangeText={(name) => this.setState({name: name})}
-                        value={this.state.idCol != '' ? this.state.name : ''}
+                        value={this.state.name}
                         style={[styles.input, styles.inputName]}
                     />
                     <TextInput
@@ -72,7 +81,7 @@ export default class NewColScreen extends React.Component {
                         label='Descricao'
                         placeholder='Digite a descrição'
                         onChangeText={(desc) => this.setState({desc: desc})}
-                        value={this.state.idCol != '' ? this.state.desc : ''}
+                        value={this.state.desc}
                         style={[styles.input, styles.inputDesc]}
                     />
                     <Pressable
@@ -95,7 +104,14 @@ export default class NewColScreen extends React.Component {
                                 style={styles.warning}
                             ><Text style={styles.helpSenha}> Erro ao editar! Por favor reinicie o aplicativo! </Text></Ionicons>
                         :
-                            <View />
+                            this.state.idCol === ''
+                            ?
+                                <Ionicons
+                                    name='warning'
+                                    style={styles.warning}
+                                ><Text style={styles.helpSenha}> Erro ao Criar! Por favor reinicie o aplicativo! </Text></Ionicons>
+                            :
+                                <View />
                     }
                     <Pressable 
                         style={[styles.btn, styles.bgRegister]}
