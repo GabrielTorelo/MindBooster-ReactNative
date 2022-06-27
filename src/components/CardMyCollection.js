@@ -1,7 +1,7 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {StyleSheet, View, Text, Image, Alert} from 'react-native';
+import {StyleSheet, View, Text, Image, Alert, ScrollView} from 'react-native';
 
 function CardMyCollection(props) {
   const removeCollectionAlert = () =>
@@ -20,7 +20,7 @@ function CardMyCollection(props) {
       ]
     );
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
         <View style={{flexDirection: 'row'}}>
             <Image
                 style={styles.cardImage}
@@ -44,7 +44,7 @@ function CardMyCollection(props) {
                 onPress={removeCollectionAlert}
             ></Ionicons>
         </View>
-    </View>
+    </ScrollView>
   );
 }
 

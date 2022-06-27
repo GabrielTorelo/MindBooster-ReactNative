@@ -32,9 +32,9 @@ export default class NewColScreen extends React.Component {
         }
     };
     update_createCol = () => {
-        const date = new Date().getDate();
-        if (this.state.idCol !== '' || this.state.errorEdit === false) {
-            database.collection(this.state.idUser).doc(this.state.idCol).get({
+        let date = new Date();
+        if (this.state.idCol !== '' && this.state.errorEdit === false) {
+            database.collection(this.state.idUser).doc(this.state.idCol).set({
                 nome: this.state.name,
                 desc: this.state.desc
             })
@@ -46,7 +46,7 @@ export default class NewColScreen extends React.Component {
             });
         }
         else{
-            database.collection(this.state.idUser).doc(date.getTime()).set({
+            database.collection(this.state.idUser).doc(date.getTime().toString()).set({
                 nome: this.state.name,
                 desc: this.state.desc
             })
