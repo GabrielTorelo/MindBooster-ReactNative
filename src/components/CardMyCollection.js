@@ -1,7 +1,8 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {StyleSheet, View, Text, Image, Alert, ScrollView} from 'react-native';
+import {StyleSheet, View, Text, Image, Alert} from 'react-native';
+import MyColScreen from '../pages/MyColScreen';
 
 function CardMyCollection(props) {
   const removeCollectionAlert = () =>
@@ -12,6 +13,7 @@ function CardMyCollection(props) {
         {
           text: 'SIM',
           onPress: () => console.log('EXCLUIR - SIM')
+          MyColScreen.deleteCollection(props.i.id);
         },
         {
           
@@ -20,7 +22,7 @@ function CardMyCollection(props) {
       ]
     );
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
         <View style={{flexDirection: 'row'}}>
             <Image
                 style={styles.cardImage}
@@ -44,7 +46,7 @@ function CardMyCollection(props) {
                 onPress={removeCollectionAlert}
             ></Ionicons>
         </View>
-    </ScrollView>
+    </View>
   );
 }
 

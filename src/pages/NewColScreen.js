@@ -16,6 +16,7 @@ export default class NewColScreen extends React.Component {
             image: '',
             desc: '',
             errorEdit: false,
+            errorCreate: false,
         };
         
     };
@@ -54,7 +55,7 @@ export default class NewColScreen extends React.Component {
                 this.props.navigation.navigate('Mycol', {idCol: '', idUser: ''});
             })
             .catch(() => {
-                this.setState({errorEdit: true})
+                this.setState({errorCreate: true})
             });
         }
     }
@@ -97,21 +98,21 @@ export default class NewColScreen extends React.Component {
                         </ImageBackground>
                     </Pressable>
                     {
-                        this.state.errorEdit === true
+                        this.state.errorEdit === true && this.state.idCol !== ''
                         ?
                             <Ionicons
                                 name='warning'
                                 style={styles.warning}
                             ><Text style={styles.helpSenha}> Erro ao editar! Por favor reinicie o aplicativo! </Text></Ionicons>
                         :
-                            this.state.idCol === ''
+                            this.state.errorCreate === true
                             ?
                                 <Ionicons
                                     name='warning'
                                     style={styles.warning}
                                 ><Text style={styles.helpSenha}> Erro ao Criar! Por favor reinicie o aplicativo! </Text></Ionicons>
                             :
-                                <View />
+                            <View />
                     }
                     <Pressable 
                         style={[styles.btn, styles.bgRegister]}
