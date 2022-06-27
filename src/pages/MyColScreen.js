@@ -16,10 +16,6 @@ export default class MyColScreen extends React.Component {
         
     };
 
-    deleteCollection = (id) => {
-        database.collection(this.state.idUser).doc(id).delete()
-    };
-
     componentDidMount(){
         database.collection(this.state.idUser).onSnapshot((query) => {
             const list = [];
@@ -34,7 +30,7 @@ export default class MyColScreen extends React.Component {
         return(
             <View style={styles.container}>
                 {
-                    this.state.collection.map((item) => <CardMyCollection i={item} n={this.props} id={this.state.idUser}/>)
+                    this.state.collection.map((item) => <CardMyCollection i={item} n={this.props} id={this.state.idUser} />)
                 }
                 <FAB
                     icon="plus"

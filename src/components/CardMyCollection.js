@@ -1,10 +1,16 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
+import firebase from '../config/firebase';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {StyleSheet, View, Text, Image, Alert} from 'react-native';
-import MyColScreen from '../pages/MyColScreen';
+
+const database = firebase.firestore();
 
 function CardMyCollection(props) {
+  const deleteCollection = () => {
+    database.collection(props.id).doc(props.i.id).delete().then(() => {
+      props.n.navigation.navigate('Mycol')
+    })};
   const removeCollectionAlert = () =>
     Alert.alert(
       '',
@@ -12,13 +18,12 @@ function CardMyCollection(props) {
       [
         {
           text: 'SIM',
-          onPress: () => console.log('EXCLUIR - SIM')
-          MyColScreen.deleteCollection(props.i.id);
+          onPress: deleteCollection,
         },
         {
           
         },
-        { text: 'CANCELAR', onPress: () => console.log('EXCLUIR - CANCELAR') }
+        { text: 'CANCELAR'}
       ]
     );
   return (
@@ -28,7 +33,8 @@ function CardMyCollection(props) {
                 style={styles.cardImage}
                 // source={{uri: 'https://imagepng.org/wp-content/uploads/2017/10/bola.png'}}
                 // source={{uri: '../images/' + props.i.image}}
-                source={require('../images/Image-1.png')}
+                source={{uri: props.i.image, width:79,height:78}}
+                // source={require('../images/Image-1.png')}
             />
             {/* {console.log(typeof props.i.image)}
             {console.log('../images/' + props.i.image)} */}
